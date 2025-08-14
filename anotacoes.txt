@@ -1,0 +1,24 @@
+Exibindo os dados que vem da API
+criando arquivo api/clientes.jsx 
+contem as principais funcoes (getClientes(), getClienteById(id), updateCliente(id, data))
+e exibindo no meu componente ApiData
+
+/api
+
+Só funções que fazem fetch para a API.
+
+Ex.: getClientes(), getClienteById(id), loginUsuario().
+
+/components
+
+Componentes pequenos e reutilizáveis, sem lógica de página inteira.
+
+Ex.: botões, cards de cliente, tabelas.
+
+/pages
+
+Cada componente aqui representa uma tela inteira.
+
+Fazem fetch dos dados, tratam estados e exibem a interface.
+
+Ex.: ListaClientes.jsx chama getClientes() e renderiza a lista.
