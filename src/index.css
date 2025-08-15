@@ -5,3 +5,9 @@
 body {
 	background-color: #242424;
 }
+.default-bg {
+	@apply bg-cyan-600 rounded-md shadow min-w-[600px] p-6;
+}
+.page-title {
+	@apply font-extrabold;
+}
