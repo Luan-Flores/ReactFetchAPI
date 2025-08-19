@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import BtnOption from "./BtnOption";
+import ClientesForm from "./ClientesForm";
 function MainMenu() {
 	const navigate = useNavigate();
 	return (
@@ -10,6 +11,7 @@ function MainMenu() {
 			<BtnOption onClick={() => navigate("/ListaClientesID")}>
 				Buscar cliente por ID
 			</BtnOption>
+			<ClientesForm></ClientesForm>
 		</div>
 	);
 }
