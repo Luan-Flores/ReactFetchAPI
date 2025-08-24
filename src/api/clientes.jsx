@@ -4,9 +4,17 @@ export async function getClientes() {
 	if (!response.ok) {
 		throw new Error(`HTTP error! status: ${response.status}`);
 	}
+	if (response.status == 204) {
+		console.log("Nenhum dado encontrado. ");
+		return { dados: [] };
+	}
+
 	return await response.json();
 }
-
+export async function editClientes(id) {
+	console.log(`${id} edit`);
+	return <p>EDITOU!!!!!!!!!!!!!!!!!</p>;
+}
 export async function addClientes(dados) {
 	const response = await fetch(`${API_URL}/adicionar`, {
 		method: "POST",
@@ -30,4 +38,23 @@ export async function addClientes(dados) {
 			`Resposta não é JSON válido: ${err.message} -- corpo: ${text}`
 		);
 	}
+}
+
+export async function deleteClientes(id) {
+	const token =
+		"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwibmFtZSI6Im5ldG8gZnJlbnRlIiwiZXhwaXJlc19pbiI6MTc1NTY2MTI5NX0.6R3GF0waAUSMkGkJ_Fo8d3eFXNJhU83dUz3XDeGjN0c";
+
+	const response = await fetch(`${API_URL}/deletar/${id}`, {
+		method: "DELETE",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`,
+		},
+	});
+
+	if (!response.ok) {
+		throw new Error(`HTTP error! Status: ${response.status}`);
+	}
+
+	return response.json();
 }

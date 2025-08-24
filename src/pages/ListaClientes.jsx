@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { getClientes } from "../api/clientes";
+import { getClientes, deleteClientes, editClientes } from "../api/clientes";
 import BtnGoBack from "../components/BtnGoBack";
 import LoadingScreen from "../components/LoadingScreen";
 
 function ListaClientes() {
 	const [data, setData] = useState(null);
 	const [error, setError] = useState(null);
+	const [clienteParaEditar, setClienteParaEditar] = useState(null);
 
 	useEffect(() => {
 		getClientes()
@@ -17,6 +18,31 @@ function ListaClientes() {
 	if (!data) return <LoadingScreen />;
 
 	const clientes = data.dados;
+	const handleEdit = async (cli) => {
+		try {
+			await editClientes(cli);
+			alert("Cliente editado com sucesso!");
+		} catch (err) {
+			console.error("Erro ao editar cliente: ", err);
+		}
+	};
+
+	const handleDelete = async (id) => {
+		if (window.confirm("Tem certeza que deseja excluir esse cliente?")) {
+			try {
+				await deleteClientes(id);
+				alert("Cliente excluído com sucesso!");
+
+				setData((prevData) => ({
+					...prevData,
+					dados: prevData.dados.filter((cliente) => cliente.id !== id),
+				}));
+			} catch (err) {
+				console.error("Erro ao excluir cliente: ", err);
+				alert("Erro ao excluir cliente.");
+			}
+		}
+	};
 
 	return (
 		<div className="min-h-screen flex flex-col items-center w-full bg-gradient-to-br from-blue-400 to-blue-700 p-8">
@@ -93,10 +119,16 @@ function ListaClientes() {
 						<p className="text-gray-700 font-medium mt-2">{cliente.telefone}</p>
 
 						<div className="flex gap-3 mt-6 w-full">
-							<button className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-xl shadow hover:bg-blue-700 transition">
+							<button
+								onClick={() => handleEdit(cliente)}
+								className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-xl shadow hover:bg-blue-700 transition"
+							>
 								Editar
 							</button>
-							<button className="flex-1 bg-red-500 text-white px-4 py-2 rounded-xl shadow hover:bg-red-600 transition">
+							<button
+								onClick={() => handleDelete(cliente.id)}
+								className="flex-1 bg-red-500 text-white px-4 py-2 rounded-xl shadow hover:bg-red-600 transition"
+							>
 								Excluir
 							</button>
 						</div>

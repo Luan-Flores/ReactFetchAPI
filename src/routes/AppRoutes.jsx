@@ -4,12 +4,14 @@ import MenuClientes from "../pages/MenuClientes";
 import ListaClientes from "../pages/ListaClientes";
 import ListaServicos from "../pages/ListaServicos";
 import MenuServicos from "../pages/MenuServicos";
+import CadastroCli from "../pages/CadastroCli";
 
 function AppRoutes() {
 	return (
 		<Routes>
 			<Route path="/" element={<MainMenu />} />
 			<Route path="/MenuClientes" element={<MenuClientes />} />
+			<Route path="/cadastrarClientes" element={<CadastroCli />} />
 			<Route path="/listaClientes" element={<ListaClientes />} />
 			<Route path="/MenuServicos" element={<MenuServicos />} />
 			<Route path="/listaServicos" element={<ListaServicos />} />
