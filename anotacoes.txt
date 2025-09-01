@@ -22,3 +22,20 @@ Cada componente aqui representa uma tela inteira.
 Fazem fetch dos dados, tratam estados e exibem a interface.
 
 Ex.: ListaClientes.jsx chama getClientes() e renderiza a lista.
+
+//////////////
+
+Edição de cliente
+
+estado clienteParaEditar começa como null
+handleEdit(cliente): quando o botao EDITAR é clicado, recebe o cliente(objeto)
+e define o estado setClienteParaEditar(cliente)
+logo, clienteParaEditar !== null
+para exibir o modal de edição de cliente, usaremos uma condicional 
+
+{clienteParaEditar && (<EditModel cliente={clienteParaEditar} onClose={closeEditModel}/>)}
+
+passamos as props cliente e onClose para o modal EditModel
+cliente={clienteParaEditar} onClose={closeEditModel}
+quando fechar (onClose) define setClienteParaEditar(null), assim a condicional
+para exibiçao do modal recebe false

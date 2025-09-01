@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getClientes, deleteClientes, editClientes } from "../api/clientes";
 import BtnGoBack from "../components/BtnGoBack";
 import LoadingScreen from "../components/LoadingScreen";
+import EditModel from "../components/EditModel";
 
 function ListaClientes() {
 	const [data, setData] = useState(null);
@@ -18,13 +19,12 @@ function ListaClientes() {
 	if (!data) return <LoadingScreen />;
 
 	const clientes = data.dados;
-	const handleEdit = async (cli) => {
-		try {
-			await editClientes(cli);
-			alert("Cliente editado com sucesso!");
-		} catch (err) {
-			console.error("Erro ao editar cliente: ", err);
-		}
+	const handleEdit = (cli) => {
+		setClienteParaEditar(cli);
+	};
+	const closeEditModel = () => {
+		console.log(setClienteParaEditar);
+		setClienteParaEditar(null);
 	};
 
 	const handleDelete = async (id) => {
@@ -47,6 +47,12 @@ function ListaClientes() {
 	return (
 		<div className="min-h-screen flex flex-col items-center w-full bg-gradient-to-br from-blue-400 to-blue-700 p-8">
 			<BtnGoBack />
+			<div>
+				{/* exibição condicional do modal */}
+				{clienteParaEditar && (
+					<EditModel cliente={clienteParaEditar} onClose={closeEditModel} />
+				)}
+			</div>
 
 			<h1 className="text-3xl font-bold text-white text-center mb-10">
 				Lista de Clientes

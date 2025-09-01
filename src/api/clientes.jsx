@@ -1,4 +1,5 @@
 const API_URL = "https://api-rest-php-j9ir.onrender.com/clientes";
+
 export async function getClientes() {
 	const response = await fetch(`${API_URL}/listar`);
 	if (!response.ok) {
@@ -11,9 +12,8 @@ export async function getClientes() {
 
 	return await response.json();
 }
-export async function editClientes(id) {
-	console.log(`${id} edit`);
-	return <p>EDITOU!!!!!!!!!!!!!!!!!</p>;
+export function editClientes(dados) {
+	return dados;
 }
 export async function addClientes(dados) {
 	const response = await fetch(`${API_URL}/adicionar`, {
