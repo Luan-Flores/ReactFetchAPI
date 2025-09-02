@@ -39,3 +39,7 @@ passamos as props cliente e onClose para o modal EditModel
 cliente={clienteParaEditar} onClose={closeEditModel}
 quando fechar (onClose) define setClienteParaEditar(null), assim a condicional
 para exibiçao do modal recebe false
+
+
+
+//Feito deploy no Render 
