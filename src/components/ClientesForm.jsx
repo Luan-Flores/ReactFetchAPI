@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { validarEmail, validarTelefone } from "../utils/validators";
+import { validarCliente } from "../utils/validators";
 import { addClientes } from "../api/clientes";
 import BtnGoBack from "./BtnGoBack";
+import InputField from "./InputField";
 
 function ClientesForm() {
 	const [nome, setNome] = useState("");
@@ -9,17 +10,35 @@ function ClientesForm() {
 	const [cidade, setCidade] = useState("");
 	const [estado, setEstado] = useState("");
 	const [telefone, setTelefone] = useState("");
+	const [errors, setErrors] = useState("");
+
+	// const exibirErro = (campo) =>
+	// 	errors[campo] ? (
+	// 		<p className="flex gap-1.5 items-center">
+	// 			<i className="text-red-500">
+	// 				<FiAlertCircle />
+	// 			</i>
+	// 			{errors[campo]}
+	// 		</p>
+	// 	) : null;
+	//troquei essa funcao pelo componente InputField que ja trata o erro exibindo o input e mensagem em vermelho
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		if (!nome || !email || !cidade || !estado || !telefone) {
-			alert("Preencha os campos obrigatórios.");
+
+		const validationErrors = validarCliente({
+			nome,
+			email,
+			cidade,
+			estado,
+			telefone,
+		});
+
+		if (Object.keys(validationErrors).length > 0) {
+			setErrors(validationErrors);
 			return;
 		}
-		if (!validarEmail(email) || !validarTelefone(telefone)) {
-			alert("Preencha os campos corretamente.");
-			return;
-		}
+
 		try {
 			const resp = await addClientes({ nome, email, cidade, estado, telefone });
 			console.log("Cliente adicionado: ", resp);
@@ -48,44 +67,35 @@ function ClientesForm() {
 				onSubmit={handleSubmit}
 				className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-xl mx-auto space-y-6"
 			>
-				<input
-					type="text"
+				<InputField
 					placeholder="Nome"
 					value={nome}
 					onChange={(e) => setNome(e.target.value)}
-					className="border border-blue-300 rounded-xl p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+					error={errors.nome}
 				/>
-
-				<input
-					type="text"
-					placeholder="E-mail"
+				<InputField
+					placeholder="Email"
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
-					className="border border-blue-300 rounded-xl p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+					error={errors.email}
 				/>
-
-				<input
-					type="text"
+				<InputField
 					placeholder="Cidade"
 					value={cidade}
 					onChange={(e) => setCidade(e.target.value)}
-					className="border border-blue-300 rounded-xl p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+					error={errors.cidade}
 				/>
-
-				<input
-					type="text"
+				<InputField
 					placeholder="Estado"
 					value={estado}
 					onChange={(e) => setEstado(e.target.value)}
-					className="border border-blue-300 rounded-xl p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+					error={errors.estado}
 				/>
-
-				<input
-					type="text"
+				<InputField
 					placeholder="Telefone"
 					value={telefone}
 					onChange={(e) => setTelefone(e.target.value)}
-					className="border border-blue-300 rounded-xl p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+					error={errors.telefone}
 				/>
 
 				<button

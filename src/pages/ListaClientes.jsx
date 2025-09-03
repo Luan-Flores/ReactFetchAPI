@@ -19,13 +19,9 @@ function ListaClientes() {
 	if (!data) return <LoadingScreen />;
 
 	const clientes = data.dados;
-	const handleEdit = (cli) => {
-		setClienteParaEditar(cli);
-	};
-	const closeEditModel = () => {
-		console.log(setClienteParaEditar);
-		setClienteParaEditar(null);
-	};
+	const handleEdit = (cli) => setClienteParaEditar(cli);
+
+	const closeEditModel = () => setClienteParaEditar(null);
 
 	const handleDelete = async (id) => {
 		if (window.confirm("Tem certeza que deseja excluir esse cliente?")) {
