@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { validarEmail, validarTelefone } from "../utils/validators";
+import InputField from "../components/InputField";
+import { validarCliente } from "../utils/validators";
 import { editClientes } from "../api/clientes";
 
 function EditModel({ cliente, onClose }) {
@@ -8,10 +9,38 @@ function EditModel({ cliente, onClose }) {
 	const [cidade, setCidade] = useState(cliente.cidade || "");
 	const [estado, setEstado] = useState(cliente.estado || "");
 	const [telefone, setTelefone] = useState(cliente.telefone || "");
+	const [errors, setErrors] = useState({});
+	const originalCliente = cliente;
+
+	const getDiff = (cliOriginal, cliEditado) => {
+		console.log(cliEditado);
+		const diff = {};
+		for (const key in cliEditado) {
+			if (cliEditado[key] !== cliOriginal[key]) {
+				diff[key] = cliEditado[key];
+			}
+		}
+		return diff;
+	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		const resp = editClientes({ nome, email, cidade, estado, telefone });
+		const validationErrors = validarCliente({
+			nome,
+			email,
+			cidade,
+			estado,
+			telefone,
+		});
+
+		if (Object.keys(validationErrors).length > 0) {
+			setErrors(validationErrors);
+			return;
+		}
+		setErrors({});
+		const editadoCliente = { nome, email, cidade, estado, telefone };
+		const dataToUpdate = getDiff(originalCliente, editadoCliente);
+		const resp = editClientes(dataToUpdate);
 		console.log(resp);
 	};
 
@@ -31,12 +60,12 @@ function EditModel({ cliente, onClose }) {
 						>
 							Nome
 						</label>
-						<input
+						<InputField
 							id="nome"
-							type="text"
-							defaultValue={nome}
+							label="Nome"
+							value={nome}
 							onChange={(e) => setNome(e.target.value)}
-							className="w-full rounded-xl border-2 border-gray-300 px-3 pt-4 pb-2 text-base focus:outline-none focus:border-blue-500"
+							error={errors.nome}
 						/>
 					</div>
 
@@ -48,12 +77,12 @@ function EditModel({ cliente, onClose }) {
 						>
 							Email
 						</label>
-						<input
+						<InputField
 							id="email"
-							type="email"
-							defaultValue={email}
+							label="email"
+							value={email}
 							onChange={(e) => setEmail(e.target.value)}
-							className="w-full rounded-xl border-2 border-gray-300 px-3 pt-4 pb-2 text-base focus:outline-none focus:border-blue-500"
+							error={errors.email}
 						/>
 					</div>
 
@@ -65,12 +94,12 @@ function EditModel({ cliente, onClose }) {
 						>
 							Cidade
 						</label>
-						<input
+						<InputField
 							id="cidade"
-							type="text"
+							label="cidade"
+							value={cidade}
 							onChange={(e) => setCidade(e.target.value)}
-							defaultValue={cidade}
-							className="w-full rounded-xl border-2 border-gray-300 px-3 pt-4 pb-2 text-base focus:outline-none focus:border-blue-500"
+							error={errors.cidade}
 						/>
 					</div>
 					<div className="relative w-full">
@@ -80,12 +109,12 @@ function EditModel({ cliente, onClose }) {
 						>
 							Estado
 						</label>
-						<input
+						<InputField
 							id="estado"
-							type="text"
+							label="estado"
+							value={estado}
 							onChange={(e) => setEstado(e.target.value)}
-							defaultValue={estado}
-							className="w-full rounded-xl border-2 border-gray-300 px-3 pt-4 pb-2 text-base focus:outline-none focus:border-blue-500"
+							error={errors.estado}
 						/>
 					</div>
 					<div className="relative w-full">
@@ -95,12 +124,12 @@ function EditModel({ cliente, onClose }) {
 						>
 							Telefone
 						</label>
-						<input
+						<InputField
 							id="telefone"
-							type="text"
+							label="telefone"
+							value={telefone}
 							onChange={(e) => setTelefone(e.target.value)}
-							defaultValue={telefone}
-							className="w-full rounded-xl border-2 border-gray-300 px-3 pt-4 pb-2 text-base focus:outline-none focus:border-blue-500"
+							error={errors.telefone}
 						/>
 					</div>
 
