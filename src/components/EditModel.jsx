@@ -13,7 +13,7 @@ function EditModel({ cliente, onClose }) {
 	const originalCliente = cliente;
 
 	const getDiff = (cliOriginal, cliEditado) => {
-		console.log(cliEditado);
+		console.log(cliOriginal); // aqui aparece o ID do cliente
 		const diff = {};
 		for (const key in cliEditado) {
 			if (cliEditado[key] !== cliOriginal[key]) {
@@ -39,9 +39,11 @@ function EditModel({ cliente, onClose }) {
 		}
 		setErrors({});
 		const editadoCliente = { nome, email, cidade, estado, telefone };
-		const dataToUpdate = getDiff(originalCliente, editadoCliente);
-		const resp = editClientes(dataToUpdate);
-		console.log(resp);
+		const diff = getDiff(originalCliente, editadoCliente);
+		if (Object.keys(diff).length > 0) {
+			const resp = editClientes(originalCliente.id, diff);
+			console.log("Resposta da API:", resp);
+		} else console.log("Nenhuma alteração detectada");
 	};
 
 	return (
