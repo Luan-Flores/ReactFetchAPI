@@ -14,7 +14,8 @@ export async function getClientes() {
 }
 export async function editClientes(id, dados) {
 	console.log(id);
-	console.log("OI");
+	console.log("Deus");
+	console.log(dados);
 	// const response = await fetch(`${API_URL}/atualizar/${id}`);
 }
 export async function addClientes(dados) {

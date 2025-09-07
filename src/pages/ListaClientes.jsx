@@ -10,8 +10,29 @@ function ListaClientes() {
 	const [clienteParaEditar, setClienteParaEditar] = useState(null);
 
 	useEffect(() => {
+		const cached = localStorage.getItem("clientes");
+
+		if (cached) {
+			const parsed = JSON.parse(cached);
+
+			// verifica se tem menos de 5 minutos
+			if (Date.now() - parsed.updatedAt < 300000) {
+				setData(parsed.clientes);
+				return;
+			}
+		}
+
 		getClientes()
-			.then((result) => setData(result))
+			.then((result) => {
+				setData(result);
+
+				// salva no localStorage com timestamp
+				const dataClientes = {
+					clientes: result,
+					updatedAt: Date.now(),
+				};
+				localStorage.setItem("clientes", JSON.stringify(dataClientes));
+			})
 			.catch((err) => setError(err));
 	}, []);
 
