@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getClientes, deleteClientes, editClientes } from "../api/clientes";
+import { getClientes, deleteClientes } from "../api/clientes";
 import BtnGoBack from "../components/BtnGoBack";
 import LoadingScreen from "../components/LoadingScreen";
 import EditModel from "../components/EditModel";
@@ -38,6 +38,10 @@ function ListaClientes() {
 
 	if (error) return <p>Erro: {error.message}</p>;
 	if (!data) return <LoadingScreen />;
+
+	// function checkEdit(cliAtualizado) {
+	// 	setData();
+	// }
 
 	const clientes = data.dados;
 	const handleEdit = (cli) => setClienteParaEditar(cli);

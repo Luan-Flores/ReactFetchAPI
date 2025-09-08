@@ -3,8 +3,10 @@ import { validarCliente } from "../utils/validators";
 import { addClientes } from "../api/clientes";
 import BtnGoBack from "./BtnGoBack";
 import InputField from "./InputField";
+import SuccessModel from "./SuccessModel";
 
 function ClientesForm() {
+	const [showSuccess, setShowSuccess] = useState(false);
 	const [nome, setNome] = useState("");
 	const [email, setEmail] = useState("");
 	const [cidade, setCidade] = useState("");
@@ -42,13 +44,13 @@ function ClientesForm() {
 		try {
 			const resp = await addClientes({ nome, email, cidade, estado, telefone });
 			console.log("Cliente adicionado: ", resp);
-			alert("Cliente cadastrado com sucesso!");
 			// limpa os campos
 			setNome("");
 			setEmail("");
 			setCidade("");
 			setEstado("");
 			setTelefone("");
+			setShowSuccess(true);
 		} catch (err) {
 			console.error("Erro ao cadastrar cliente: ", err);
 			alert("Erro no cadastro");
@@ -58,11 +60,9 @@ function ClientesForm() {
 	return (
 		<div className="min-h-screen w-full bg-gradient-to-br from-blue-400 to-blue-700 p-8">
 			<BtnGoBack />
-
 			<h1 className="text-3xl font-bold text-white text-center mb-10">
 				Cadastro de Cliente
 			</h1>
-
 			<form
 				onSubmit={handleSubmit}
 				className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-xl mx-auto space-y-6"
@@ -105,6 +105,7 @@ function ClientesForm() {
 					Cadastrar
 				</button>
 			</form>
+			{showSuccess && <SuccessModel onClose={() => setShowSuccess(false)} />};
 		</div>
 	);
 }

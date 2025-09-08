@@ -2,6 +2,7 @@ import { useState } from "react";
 import InputField from "../components/InputField";
 import { validarCliente } from "../utils/validators";
 import { editClientes } from "../api/clientes";
+import SuccessModel from "./SuccessModel";
 
 function EditModel({ cliente, onClose }) {
 	const [nome, setNome] = useState(cliente.nome || "");
@@ -10,6 +11,7 @@ function EditModel({ cliente, onClose }) {
 	const [estado, setEstado] = useState(cliente.estado || "");
 	const [telefone, setTelefone] = useState(cliente.telefone || "");
 	const [errors, setErrors] = useState({});
+	const [showSuccess, setShowSuccess] = useState(false);
 	const originalCliente = cliente;
 
 	const getDiff = (cliOriginal, cliEditado) => {
@@ -22,6 +24,10 @@ function EditModel({ cliente, onClose }) {
 		}
 		return diff;
 	};
+	function closeModel() {
+		setShowSuccess(false);
+		onClose();
+	}
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -42,6 +48,7 @@ function EditModel({ cliente, onClose }) {
 		const diff = getDiff(originalCliente, editadoCliente);
 		if (Object.keys(diff).length > 0) {
 			const resp = editClientes(originalCliente.id, diff);
+			setShowSuccess(true);
 			console.log("Resposta da API:", resp);
 		} else console.log("Nenhuma alteração detectada");
 	};
@@ -153,6 +160,7 @@ function EditModel({ cliente, onClose }) {
 					</div>
 				</form>
 			</div>
+			{showSuccess && <SuccessModel onClose={closeModel} />}
 		</div>
 	);
 }

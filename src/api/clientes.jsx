@@ -14,9 +14,25 @@ export async function getClientes() {
 }
 export async function editClientes(id, dados) {
 	console.log(id);
-	console.log("Deus");
 	console.log(dados);
-	// const response = await fetch(`${API_URL}/atualizar/${id}`);
+	const response = await fetch(`${API_URL}/atualizar/${id}`, {
+		method: "PATCH",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(dados),
+	});
+
+	const text = await response.text();
+	if (!response.ok) {
+		throw new Error(`HTTP Error! status: ${response.status} - ${text}`);
+	}
+
+	try {
+		return JSON.parse(text);
+	} catch (err) {
+		throw new Error(
+			`Resposta não é JSON válido: ${err.message} -- corpo: ${text}`
+		);
+	}
 }
 export async function addClientes(dados) {
 	const response = await fetch(`${API_URL}/adicionar`, {
@@ -27,7 +43,6 @@ export async function addClientes(dados) {
 
 	// pega o texto cru (mesmo que não seja JSON válido)
 	const text = await response.text();
-	console.log("DEBUG addClientes - status:", response.status, "body:", text);
 
 	if (!response.ok) {
 		throw new Error(`HTTP error! status: ${response.status} - ${text}`);
