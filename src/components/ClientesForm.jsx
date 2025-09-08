@@ -5,7 +5,7 @@ import BtnGoBack from "./BtnGoBack";
 import InputField from "./InputField";
 import SuccessModel from "./SuccessModel";
 
-function ClientesForm() {
+function ClientesForm({ onUpdated }) {
 	const [showSuccess, setShowSuccess] = useState(false);
 	const [nome, setNome] = useState("");
 	const [email, setEmail] = useState("");

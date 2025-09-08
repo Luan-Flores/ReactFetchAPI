@@ -4,7 +4,7 @@ import { validarCliente } from "../utils/validators";
 import { editClientes } from "../api/clientes";
 import SuccessModel from "./SuccessModel";
 
-function EditModel({ cliente, onClose }) {
+function EditModel({ cliente, onClose, onUpdated }) {
 	const [nome, setNome] = useState(cliente.nome || "");
 	const [email, setEmail] = useState(cliente.email || "");
 	const [cidade, setCidade] = useState(cliente.cidade || "");
@@ -12,6 +12,7 @@ function EditModel({ cliente, onClose }) {
 	const [telefone, setTelefone] = useState(cliente.telefone || "");
 	const [errors, setErrors] = useState({});
 	const [showSuccess, setShowSuccess] = useState(false);
+
 	const originalCliente = cliente;
 
 	const getDiff = (cliOriginal, cliEditado) => {
@@ -24,9 +25,11 @@ function EditModel({ cliente, onClose }) {
 		}
 		return diff;
 	};
+
 	function closeModel() {
-		setShowSuccess(false);
-		onClose();
+		setShowSuccess(false); //fechar modal de sucesso
+		onClose(); //fechar modal de edicao
+		onUpdated(); //emite um sinal de alteraçao para o componente pai
 	}
 
 	const handleSubmit = (e) => {

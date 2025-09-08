@@ -9,6 +9,21 @@ function ListaClientes() {
 	const [error, setError] = useState(null);
 	const [clienteParaEditar, setClienteParaEditar] = useState(null);
 
+	const getNewClient = async () => {
+		getClientes()
+			.then((result) => {
+				setData(result);
+
+				// salva no localStorage com timestamp
+				const dataClientes = {
+					clientes: result,
+					updatedAt: Date.now(),
+				};
+				localStorage.setItem("clientes", JSON.stringify(dataClientes));
+			})
+			.catch((err) => setError(err));
+	};
+
 	useEffect(() => {
 		const cached = localStorage.getItem("clientes");
 
@@ -22,26 +37,11 @@ function ListaClientes() {
 			}
 		}
 
-		getClientes()
-			.then((result) => {
-				setData(result);
-
-				// salva no localStorage com timestamp
-				const dataClientes = {
-					clientes: result,
-					updatedAt: Date.now(),
-				};
-				localStorage.setItem("clientes", JSON.stringify(dataClientes));
-			})
-			.catch((err) => setError(err));
+		getNewClient();
 	}, []);
 
 	if (error) return <p>Erro: {error.message}</p>;
 	if (!data) return <LoadingScreen />;
-
-	// function checkEdit(cliAtualizado) {
-	// 	setData();
-	// }
 
 	const clientes = data.dados;
 	const handleEdit = (cli) => setClienteParaEditar(cli);
@@ -71,7 +71,11 @@ function ListaClientes() {
 			<div>
 				{/* exibição condicional do modal */}
 				{clienteParaEditar && (
-					<EditModel cliente={clienteParaEditar} onClose={closeEditModel} />
+					<EditModel
+						onUpdated={getNewClient}
+						cliente={clienteParaEditar}
+						onClose={closeEditModel}
+					/>
 				)}
 			</div>
 
