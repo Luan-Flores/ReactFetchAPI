@@ -3,12 +3,20 @@ import { getClientes, deleteClientes } from "../api/clientes";
 import BtnGoBack from "../components/BtnGoBack";
 import LoadingScreen from "../components/LoadingScreen";
 import EditModel from "../components/EditModel";
+import Confirm from "../components/Confirm";
+import SuccessModel from "../components/SuccessModel";
 
 function ListaClientes() {
 	const [data, setData] = useState(null);
 	const [error, setError] = useState(null);
 	const [clienteParaEditar, setClienteParaEditar] = useState(null);
+	const [excluirCliente, setExcluirCliente] = useState(null);
+	const [showSuccess, setShowSuccess] = useState(false);
 
+	function closeModel() {
+		setShowSuccess(false);
+		setExcluirCliente(false);
+	}
 	const getNewClient = async () => {
 		getClientes()
 			.then((result) => {
@@ -23,6 +31,11 @@ function ListaClientes() {
 			})
 			.catch((err) => setError(err));
 	};
+	useEffect(() => {
+		window.addEventListener("clientesAtualizados", getNewClient());
+		return () =>
+			window.removeEventListener("clientesAtualizados", getNewClient());
+	}, []);
 
 	useEffect(() => {
 		const cached = localStorage.getItem("clientes");
@@ -49,21 +62,27 @@ function ListaClientes() {
 	const closeEditModel = () => setClienteParaEditar(null);
 
 	const handleDelete = async (id) => {
-		if (window.confirm("Tem certeza que deseja excluir esse cliente?")) {
-			try {
-				await deleteClientes(id);
-				alert("Cliente excluído com sucesso!");
-
-				setData((prevData) => ({
-					...prevData,
-					dados: prevData.dados.filter((cliente) => cliente.id !== id),
-				}));
-			} catch (err) {
-				console.error("Erro ao excluir cliente: ", err);
-				alert("Erro ao excluir cliente.");
-			}
-		}
+		setExcluirCliente(id);
 	};
+
+	async function deleteCliente() {
+		console.log(excluirCliente);
+		try {
+			await deleteClientes(excluirCliente);
+			setShowSuccess(true);
+
+			setData((prevData) => ({
+				...prevData,
+				dados: prevData.dados.filter(
+					(cliente) => cliente.id !== excluirCliente
+				),
+			}));
+			setExcluirCliente(false);
+		} catch (err) {
+			console.error("Erro ao excluir cliente: ", err);
+			alert("Erro ao excluir cliente.");
+		}
+	}
 
 	return (
 		<div className="min-h-screen flex flex-col items-center w-full bg-gradient-to-br from-blue-400 to-blue-700 p-8">
@@ -162,10 +181,15 @@ function ListaClientes() {
 							>
 								Excluir
 							</button>
+							{/*Exibicao condicional do modal de confirmação de exclusao de usuario*/}
+							{excluirCliente && (
+								<Confirm onConfirm={deleteCliente} onCancel={closeModel} />
+							)}
 						</div>
 					</div>
 				))}
 			</div>
+			{showSuccess && <SuccessModel onClose={closeModel} />}
 		</div>
 	);
 }

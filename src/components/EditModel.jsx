@@ -16,7 +16,6 @@ function EditModel({ cliente, onClose, onUpdated }) {
 	const originalCliente = cliente;
 
 	const getDiff = (cliOriginal, cliEditado) => {
-		console.log(cliOriginal); // aqui aparece o ID do cliente
 		const diff = {};
 		for (const key in cliEditado) {
 			if (cliEditado[key] !== cliOriginal[key]) {

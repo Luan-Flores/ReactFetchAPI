@@ -5,7 +5,7 @@ import BtnGoBack from "./BtnGoBack";
 import InputField from "./InputField";
 import SuccessModel from "./SuccessModel";
 
-function ClientesForm({ onUpdated }) {
+function ClientesForm() {
 	const [showSuccess, setShowSuccess] = useState(false);
 	const [nome, setNome] = useState("");
 	const [email, setEmail] = useState("");
@@ -55,6 +55,7 @@ function ClientesForm({ onUpdated }) {
 			console.error("Erro ao cadastrar cliente: ", err);
 			alert("Erro no cadastro");
 		}
+		window.dispatchEvent(new Event("clientesAtualizados"));
 	};
 
 	return (

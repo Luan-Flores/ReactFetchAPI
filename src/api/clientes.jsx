@@ -13,8 +13,6 @@ export async function getClientes() {
 	return await response.json();
 }
 export async function editClientes(id, dados) {
-	console.log(id);
-	console.log(dados);
 	const response = await fetch(`${API_URL}/atualizar/${id}`, {
 		method: "PATCH",
 		headers: { "Content-Type": "application/json" },
