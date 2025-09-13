@@ -9,6 +9,7 @@ function ClientesForm() {
 	const [showSuccess, setShowSuccess] = useState(false);
 	const [nome, setNome] = useState("");
 	const [email, setEmail] = useState("");
+	const [dataNasc, setDataNasc] = useState("");
 	const [cidade, setCidade] = useState("");
 	const [estado, setEstado] = useState("");
 	const [telefone, setTelefone] = useState("");
@@ -31,6 +32,7 @@ function ClientesForm() {
 		const validationErrors = validarCliente({
 			nome,
 			email,
+			dataNasc,
 			cidade,
 			estado,
 			telefone,
@@ -42,11 +44,19 @@ function ClientesForm() {
 		}
 
 		try {
-			const resp = await addClientes({ nome, email, cidade, estado, telefone });
+			const resp = await addClientes({
+				nome,
+				email,
+				dataNasc,
+				cidade,
+				estado,
+				telefone,
+			});
 			console.log("Cliente adicionado: ", resp);
 			// limpa os campos
 			setNome("");
 			setEmail("");
+			setDataNasc("");
 			setCidade("");
 			setEstado("");
 			setTelefone("");
@@ -73,6 +83,12 @@ function ClientesForm() {
 					value={nome}
 					onChange={(e) => setNome(e.target.value)}
 					error={errors.nome}
+				/>
+				<InputField
+					placeholder="Data de Nascimento"
+					value={dataNasc}
+					onChange={(e) => setDataNasc(e.target.value)}
+					error={errors.dataNasc}
 				/>
 				<InputField
 					placeholder="Email"

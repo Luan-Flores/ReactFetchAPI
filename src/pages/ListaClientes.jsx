@@ -166,6 +166,8 @@ function ListaClientes() {
 						<p className="text-gray-500 text-sm">
 							{cliente.cidade} - {cliente.estado}
 						</p>
+						<p className="text-gray-500 font-medium mt-2">{cliente.datanasc}</p>
+						{console.log(cliente)}
 						<p className="text-gray-700 font-medium mt-2">{cliente.telefone}</p>
 
 						<div className="flex gap-3 mt-6 w-full">

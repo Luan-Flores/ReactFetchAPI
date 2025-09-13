@@ -14,7 +14,7 @@ function MenuServicos() {
 				<BtnOption onClick={() => navigate("/listaServicos")}>
 					📋 Lista de Serviços
 				</BtnOption>
-				<BtnOption onClick={() => navigate("/cadastrarClientes")}>
+				<BtnOption onClick={() => navigate("/cadastrarServicos")}>
 					➕ Cadastrar Serviços
 				</BtnOption>
 			</div>

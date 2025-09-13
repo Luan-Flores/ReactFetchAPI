@@ -12,11 +12,19 @@ export function validarTelefone(tel) {
 // 	return regex.test(nome);
 // }
 // utils/validators.js
-export function validarCliente({ nome, email, cidade, estado, telefone }) {
+export function validarCliente({
+	nome,
+	email,
+	dataNasc,
+	cidade,
+	estado,
+	telefone,
+}) {
 	const errors = {};
 
 	if (!nome.trim()) errors.nome = "Nome é obrigatório";
 	if (!email.trim() || !validarEmail(email)) errors.email = "E-mail inválido";
+	if (!dataNasc.trim()) errors.dataNasc = "Data de nascimento é obrigatório";
 	if (!cidade.trim()) errors.cidade = "Cidade é obrigatória";
 	if (!estado.trim()) errors.estado = "Estado é obrigatório";
 	if (!telefone.trim() || !validarTelefone(telefone))
