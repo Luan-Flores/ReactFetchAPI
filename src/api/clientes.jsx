@@ -1,4 +1,5 @@
-const API_URL = "https://api-rest-php-j9ir.onrender.com/clientes";
+// const API_URL = "https://api-rest-php-j9ir.onrender.com/clientes";
+const API_URL = "http://localhost/codigos/Api-Reservas/php-reservas/clientes";
 
 export async function getClientes() {
 	const response = await fetch(`${API_URL}/listar`);

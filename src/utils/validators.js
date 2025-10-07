@@ -32,3 +32,10 @@ export function validarCliente({
 
 	return errors;
 }
+export function validarServico({ nome, duracao, preco }) {
+	const errors = {};
+	if (!nome.trim()) errors.nome = "Nome é obrigatorio";
+	if (!duracao.trim()) errors.duracao = "Informe a duração do serviço";
+	if (!preco.trim()) errors.preco = "Informe o preço do serviço";
+	return errors;
+}

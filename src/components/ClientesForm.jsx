@@ -15,17 +15,6 @@ function ClientesForm() {
 	const [telefone, setTelefone] = useState("");
 	const [errors, setErrors] = useState("");
 
-	// const exibirErro = (campo) =>
-	// 	errors[campo] ? (
-	// 		<p className="flex gap-1.5 items-center">
-	// 			<i className="text-red-500">
-	// 				<FiAlertCircle />
-	// 			</i>
-	// 			{errors[campo]}
-	// 		</p>
-	// 	) : null;
-	//troquei essa funcao pelo componente InputField que ja trata o erro exibindo o input e mensagem em vermelho
-
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
